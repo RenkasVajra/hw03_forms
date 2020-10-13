@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Создание новой записи{% endblock %}
+{% block content %}
+
+<form method="PostForm" action="{% url 'new_post' %}">
+  {{% ExchangeForm.text %}}
+  {{% ExchangeForm.group %}}
+  {% csrf_token %}
+  {{ form.as_p }}
+  <input type="submit" value="Создать новую запись">
+</form>
+{% endblock %} 
