@@ -1,5 +1,6 @@
 from django.urls import path
-from . import views
+from posts import views
+
 
 urlpatterns = [
     # path() для страницы регистрации нового пользователя
