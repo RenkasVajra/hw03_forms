@@ -1,5 +1,4 @@
 from django.shortcuts import get_object_or_404, render
-
 from django.shortcuts import redirect,render
 #  импортируем CreateView, чтобы создать ему наследника
 from django.views.generic import CreateView
@@ -43,9 +42,6 @@ def new_post(request):
         return render(request, "new.html", {
                     "form": form,
             })   
-        
-        
-	
     else:  
         form = PostForm()
     return render(request, 'new.html', {  
