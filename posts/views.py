@@ -4,7 +4,7 @@ from django.shortcuts import redirect,render
 from django.views.generic import CreateView
 #  функция reverse_lazy позволяет получить URL по параметру "name" функции path()
 from django.urls import reverse_lazy
-
+from django.urls import reverse
 #  импортируем класс формы, чтобы сослаться на неё во view-клаccf
 from .forms import PostForm
 from .models import Group, Post
@@ -35,14 +35,13 @@ def new_post(request):
     form = PostForm()
     if request.method == 'POST':
         form = PostForm(request.POST)
+        
         if form.is_valid():
-            form.save()
+            form.save()  
             return redirect('index')
-            return render(request, "new.html", {
-                        "form": form,
-                    })   
         else:  
             form = PostForm()
-            return render(request, "new.html", {
-                        "form": form,
+    return render(request, 'new.html', {  
+                'form': form
             })
+    
