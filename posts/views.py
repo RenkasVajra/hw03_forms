@@ -37,7 +37,8 @@ def new_post(request):
         if form.is_valid():
             form.save() 
             return redirect('index')
-
+        else:
+            form = PostForm()
         return render(request, 'new.html', {  
                     'form': form
                 })
@@ -52,7 +53,8 @@ def new_post(request):
         if form.is_valid():
             form.save()
             return redirect('index')
-
+        else:
+            form = PostForm()
         return render(request, 'new.html', {  
                     'form': form
                 })
