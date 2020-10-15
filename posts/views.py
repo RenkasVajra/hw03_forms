@@ -35,22 +35,28 @@ def new_post(request):
     form = PostForm()
     if request.method == 'POST':
         form = PostForm(request.POST)
-        
         if form.is_valid():
             form.save() 
             return redirect('index')
-        else:  
-            form = PostForm()
 
+        return render(request, 'new.html', {  
+                    'form': form
+                })
+    form = PostForm()
     return render(request, 'new.html', {  
                 'form': form
             })
+
 
     if request.method == 'GET':
         form = PostForm(request.GET)
         if form.is_valid():
             form.save()
             return redirect('index')
+
+        return render(request, 'new.html', {  
+                    'form': form
+                })
 
 
     return render(request, 'new.html', {  
