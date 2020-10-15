@@ -38,13 +38,12 @@ def new_post(request):
         
     if form.is_valid():
         form.save()
-        return redirect('http://127.0.0.1:8000/')
+        return redirect('new_post')
         return render(request, "new.html", {
                     "form": form,
             })   
     else:  
         form = PostForm()
-    return render(request, 'new.html', {  
-						    'form': form
-                    })
-    
+        return render(request, "new.html", {
+                    "form": form,
+        })
