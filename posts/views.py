@@ -54,9 +54,7 @@ def new_post(request):
             form.save()
             return redirect('index')
  
-        return render(request, 'new.html', {  
-                    'form': form
-                })
+
 
 
     return render(request, 'new.html', {  
