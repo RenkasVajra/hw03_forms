@@ -23,9 +23,9 @@ class CreationForm(UserCreationForm):
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ('group', 'text',)    
+        fields = ('group', 'text','author')    
         labels = {
             'group': 'Группа',
             'text': 'Текст',
-            'author': 'Автор',
+            'author': 'Автор'
         }
