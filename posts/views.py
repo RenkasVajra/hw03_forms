@@ -41,7 +41,7 @@ def new_post(request):
         return render(request, 'new.html', {  
                     'form': form
                 })
-    form = PostForm
+    form = PostForm()
     return render(request, 'new.html', {  
                 'form': form
             })
@@ -61,4 +61,4 @@ def new_post(request):
     return render(request, 'new.html', {  
                 'form': form
             })       
-    form = PostForm
+    form = PostForm()
