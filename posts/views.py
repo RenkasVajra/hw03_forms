@@ -32,7 +32,6 @@ def index(request):
     })
     
 def new_post(request):
-    form = PostForm()
     if request.method == 'POST':
         form = PostForm(request.POST)
         if form.is_valid():
@@ -42,7 +41,7 @@ def new_post(request):
         return render(request, 'new.html', {  
                     'form': form
                 })
-    form = PostForm()
+    form = PostForm
     return render(request, 'new.html', {  
                 'form': form
             })
