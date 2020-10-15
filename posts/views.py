@@ -36,7 +36,7 @@ def new_post(request):
         form = PostForm(request.POST)
         if form.is_valid():
             form.save() 
-            return redirect('index')
+
 
         return render(request, 'new.html', {  
                     'form': form
