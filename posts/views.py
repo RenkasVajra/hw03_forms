@@ -1,10 +1,10 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, render
 from django.shortcuts import redirect,render
 #  импортируем CreateView, чтобы создать ему наследника
 from django.views.generic import CreateView
 #  функция reverse_lazy позволяет получить URL по параметру "name" функции path()
 from django.urls import reverse_lazy
-
 #  импортируем класс формы, чтобы сослаться на неё во view-клаccf
 from .forms import PostForm
 from .models import Group, Post
@@ -30,18 +30,30 @@ def index(request):
     return render(request, "index.html", {
         "posts": latest,
     })
-    
+
+@login_required
 def new_post(request):
+#if not request.user.is_authenticated:
+#form = PostForm()
+#return redirect('signup') 
+    
     if request.method == 'POST':
         form = PostForm(request.POST)
+        
         if form.is_valid():
             form.save() 
-            return redirect('index')  
+            return render(request, 'new.html', {  
+                'form': form
+            })
+
+            return redirect('index') 
+
+        
+               
     form = PostForm()               
     return render(request, 'new.html', {  
                 'form': form
             })
-
 
     if request.method == 'GET':
         form = PostForm(request.GET)
