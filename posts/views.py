@@ -41,6 +41,7 @@ def new_post(request):
         form = PostForm(request.POST)
         
         if form.is_valid():
+            author = User.objects.get(username=user)
             form.save() 
             return render(request, 'new.html', {  
                 'form': form
