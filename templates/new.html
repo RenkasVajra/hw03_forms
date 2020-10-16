@@ -26,7 +26,6 @@
 
                                     {# подключаем фильтр и указываем класс #}
                                     {{ field|addclass:"form-control" }}
-                                    <h1>{{ group.title }}</h1>
                                     {% if field.help_text %}
                                     
                                     <small id="{{ field.id_for_label }}-help" class="form-text text-muted">{{ field.help_text|safe }}</small>
