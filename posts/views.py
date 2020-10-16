@@ -1,4 +1,5 @@
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import get_user_model, login_required
+
 from django.shortcuts import get_object_or_404, render
 from django.shortcuts import redirect,render
 #  импортируем CreateView, чтобы создать ему наследника
