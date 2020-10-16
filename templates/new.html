@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}С<h1>{{ group.title }}</h1>{% endblock %}
+{% block title %}Создание поста {% endblock %}
 {% block content %}
 {# загружаем фильтр #}
 {% load user_filters %}
@@ -37,7 +37,7 @@
 
                     <div class="col-md-6 offset-md-4">         
                             <button type="submit" class="btn btn-primary">
-                                Добавить запись
+                                Добавить запись <h1>{{ field.group }}</h1>
                             </button>
                     </div>
                 </form>
