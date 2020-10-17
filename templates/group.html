@@ -2,9 +2,8 @@
 {% block title %} Записи сообщества {{ group.title }} {% endblock %} 
 {% block header %} <h1>{{ group.title }}</h1> {% endblock %} 
 {% block content %} 
-
+    <h1>{{ group.title }}</h1>
     <p> 
-        <h1>{{ group.title }}</h1>
         {{ group.description }} 
     </p> 
     {% for post in posts %} 
