@@ -11,21 +11,18 @@ from posts.models import Post
 
 User = get_user_model()
 
-#  создадим собственный класс для формы регистрации
-#  сделаем его наследником предустановленного класса UserCreationForm
+
 class CreationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
-        # укажем модель, с которой связана создаваемая форма
         model = User
-        # укажем, какие поля должны быть видны в форме и в каком порядке
-        fields = ("first_name", "last_name", "username", "email") 
+        fields = {"first_name", "last_name", "username", "email"}
 # forms for /new/
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ['group', 'text',]  
+        fields = {'group', 'text',}
         labels = {
             'group': 'Группа',
             'text': 'Текст',
-
         }
+        help_text = {'name': 'Создайте свой новый пост.'}

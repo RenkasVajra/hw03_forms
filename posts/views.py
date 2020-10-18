@@ -5,9 +5,7 @@ from django.shortcuts import redirect, render
 
 #  импортируем CreateView, чтобы создать ему наследника
 from django.views.generic import CreateView
-#  функция reverse_lazy позволяет получить URL по параметру "name" функции path()
 from django.urls import reverse_lazy
-#  импортируем класс формы, чтобы сослаться на неё во view-клаccf
 
 from .forms import PostForm
 from .models import Group, Post
@@ -36,6 +34,8 @@ def index(request):
         "posts": latest,
     })
 # @login_required - testing user authorization
+
+# А зчем мне изменять ф-ию на обратную ?
 @login_required
 def new_post(request):
     form = PostForm(request.POST or None)
