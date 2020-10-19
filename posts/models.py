@@ -45,7 +45,7 @@ class Post(models.Model):
 
 
     class Meta:
-        ordering = ['-pub_date']
+        ordering = ('-pub_date',)
 
     # printing posts text
     def __str__(self):
