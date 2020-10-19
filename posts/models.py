@@ -43,7 +43,7 @@ class Post(models.Model):
         null=True,
     )
 
-# ordering' must be a tuple or list, его нельзя сделать кортежем,вы ошиблись
+
     class Meta:
         ordering = ['-pub_date']
 

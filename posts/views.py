@@ -3,21 +3,8 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect, render
 
-#  импортируем CreateView, чтобы создать ему наследника
-from django.views.generic import CreateView
-from django.urls import reverse_lazy
-
 from .forms import PostForm
 from .models import Group, Post
-from posts.forms import CreationForm
-
-
-User = get_user_model()
-
-class SignUp(CreateView):
-    form_class = CreationForm
-    success_url = reverse_lazy("login") #  где login — это параметр "name" в path()
-    template_name = "signup.html" 
 
 
 def group_posts(request, slug):
@@ -33,9 +20,7 @@ def index(request):
     return render(request, "index.html", {
         "posts": latest,
     })
-# @login_required - testing user authorization
 
-# А зчем мне изменять ф-ию на обратную ?
 @login_required
 def new_post(request):
     form = PostForm(request.POST or None)
