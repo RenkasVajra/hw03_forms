@@ -26,6 +26,8 @@ def new_post(request):
     form = PostForm(request.POST or None)
     if not request.method == 'POST':
         if not form.is_valid():
+            form.save()
+        else: 
             post = form.save(commit=False)
             post.author = request.user
             post.save()
@@ -34,7 +36,9 @@ def new_post(request):
     if not request.method == 'GET':
         form = PostForm(request.GET)
         if not form.is_valid():
-            form.save(form)
+            form = PostForm()
             return redirect('index')
+        else:
+            form.save(form)
     form = PostForm()
     return render(request, 'new.html', {'form': form})       
