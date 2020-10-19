@@ -28,7 +28,10 @@ def new_post(request):
         return redirect('index')
         if not form.is_valid():
             form = PostForm()
-        
+        post = form.save(commit=False)
+        post.author = request.user
+        post.save()       
             return redirect('index')
     form.save()
     return render(request, 'new.html', {'form': form})
+
