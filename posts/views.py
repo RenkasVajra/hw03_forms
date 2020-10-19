@@ -27,9 +27,7 @@ def new_post(request):
     if not request.method == 'POST':
         if not form.is_valid():
             return redirect('index')
-        else:
             post = form.save(commit=False)
             post.author = request.user
             post.save()
-            return redirect('index')
     return render(request, 'new.html', {'form': form})
