@@ -25,7 +25,9 @@ def index(request):
 def new_post(request):
     form = PostForm(request.POST or None)
     if not request.method == 'POST':
+        form = PostForm()
         if not form.is_valid():
+            form = PostForm()
             return redirect('index')
         form.save()
     return render(request, 'new.html', {'form': form})
