@@ -24,16 +24,17 @@ def index(request):
 @login_required
 def new_post(request):
     form = PostForm(request.POST or None)
-    if request.method == 'POST':
-        if form.is_valid():
-            post = form.save(commit=False)
-            post.author = request.user
-            post.save()
+    if not request.method == 'POST':
+        form = PostForm()
+        if not form.is_valid():
+            """post = form.save(commit=False)
+            post.author = request.user"""
+            form.save(form)
             return redirect('index')
     return render(request, 'new.html', {'form': form})
-    if request.method == 'GET':
-        form = PostForm(request.GET)
-        if form.is_valid():
+    if not request.method == 'GET':
+        form = PostForm()
+        if not form.is_valid():
             form.save(form)
             return redirect('index')
     form = PostForm()
