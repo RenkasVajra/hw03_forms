@@ -30,4 +30,6 @@ def new_post(request):
             form = PostForm()
             return redirect('index')
         form.save()
+        return redirect('index')
+
     return render(request, 'new.html', {'form': form})
