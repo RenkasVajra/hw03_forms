@@ -28,7 +28,6 @@ def new_post(request):
         form = PostForm()
         if not form.is_valid():
             form = PostForm()
-            return redirect('index')
         form.save()
         return redirect('index')
 
