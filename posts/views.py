@@ -31,7 +31,7 @@ def new_post(request):
         post = form.save(commit=False)
         post.author = request.user
         post.save()       
-            return redirect('index')
+        return redirect('index')
     form.save()
     return render(request, 'new.html', {'form': form})
 
