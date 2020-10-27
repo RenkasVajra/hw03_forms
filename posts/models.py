@@ -49,4 +49,4 @@ class Post(models.Model):
 
     # printing posts text
     def __str__(self):
-        return self.title
+        return self.text

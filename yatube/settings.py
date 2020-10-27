@@ -25,7 +25,12 @@ SECRET_KEY = 'u1uh1h5_oes+*f0l)(arx!cv63v1dv^mu4a5v^36w-q8+zn@rr'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+    "[::1]",
+    "testserver",
+]
 
 
 # Application definition
@@ -33,6 +38,8 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'posts',
     'users',
+    'django.contrib.sites',
+    'django.contrib.flatpages',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -134,3 +141,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
 # указываем директорию, в которую будут складываться файлы писем
 EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails") 
+
+SITE_ID = 1 

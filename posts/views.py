@@ -1,11 +1,17 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
+from django.core.checks.messages import Error
+from django.core.paginator import Paginator
+from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect, render
+from django.urls import reverse
 
 from .forms import PostForm
 from .models import Group, Post
 
+
+User = get_user_model()
 
 def group_posts(request, slug):
     group = get_object_or_404(Group, slug=slug)
@@ -16,10 +22,16 @@ def group_posts(request, slug):
     })  
 
 def index(request):
-    latest = Post.objects.all()[:11]
-    return render(request, "index.html", {
-        "posts": latest,
-    })
+    post_list = Post.objects.order_by('-pub_date').all()
+    paginator = Paginator(post_list, 10)
+
+    page_number = request.GET.get('page') 
+    page = paginator.get_page(page_number)
+    return render(
+         request,
+         'index.html',
+         {'page': page, 'paginator': paginator}
+     )
 
 @login_required
 def new_post(request): 
@@ -32,3 +44,51 @@ def new_post(request):
     post.save()
       
     return redirect('index')
+
+def profile(request, username):
+
+    user = get_object_or_404(Post, author__username=username) 
+    if user is None:
+        return redirect('signup')
+
+    post_list = user.posts.all()[:10]
+    post_count = post_list.count()
+    paginator = Paginator(post_list, 10)
+    post_latest = post_list.latest('pub_date')
+    page_number = request.GET.get('page') 
+    page = paginator.get_page(page_number)
+    context = {"user": 'user',
+              "post_latest":post_latest,
+              "post_count":post_count,
+              "page":page,
+              "paginator":paginator}
+    return render(request, 'profile.html', context)
+ 
+ 
+def post_view(request, username, post_id):
+    post = get_object_or_404(Post,author__username=username,pk=post_id,)
+    author = post.author
+    return render(request, 'post.html', {'post': post,
+                                        'author': author})
+
+def post_edit(request, username, post_id):
+
+    post = get_object_or_404(Post,pk=post_id,)
+    author = post.author
+    if post.author != request.user: 
+        return redirect(reverse('post', kwargs={'username':username,
+                                                'post_id':post.pk}))
+  
+    if request.method == 'POST':
+        form = PostForm(request.POST, post=post)
+        if form.is_valid():
+            post_form = form.save(commit=False)
+            post_form.author = request.user
+            form.save()
+            return redirect(reverse('post', kwargs={'username':username,
+                                                    'post_id':post.pk}))
+    else:
+        form = PostForm(post=post)
+    return render(request, "new.html", {'form': form,
+                                        'edit': "Сохранить", 
+                                        'edit_post': "Редактировать пост"})
