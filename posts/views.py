@@ -31,7 +31,7 @@ def index(request):
          request,
          'index.html',
          {'page': page, 'paginator': paginator}
-     )
+    )
 
 @login_required
 def new_post(request): 
@@ -47,17 +47,17 @@ def new_post(request):
 
 def profile(request, username):
 
-    user = get_object_or_404(Post, author__username=username) 
-    if user is None:
+    post = get_object_or_404(Post, author__username=username) 
+    if post is None:
         return redirect('signup')
-
-    post_list = user.posts.all()[:10]
+ 
+    post_list = post.posts.all()[:10]
     post_count = post_list.count()
     paginator = Paginator(post_list, 10)
     post_latest = post_list.latest('pub_date')
     page_number = request.GET.get('page') 
     page = paginator.get_page(page_number)
-    context = {"user": 'user',
+    context = {"post": post,
               "post_latest":post_latest,
               "post_count":post_count,
               "page":page,
@@ -73,22 +73,32 @@ def post_view(request, username, post_id):
 
 def post_edit(request, username, post_id):
 
-    post = get_object_or_404(Post,pk=post_id,)
-    author = post.author
-    if post.author != request.user: 
-        return redirect(reverse('post', kwargs={'username':username,
-                                                'post_id':post.pk}))
+    post = get_object_or_404(Post,author__username=username,pk=post_id,)
+    if request.user.username != username: 
+        return redirect('post', kwargs={
+                                'username':username,
+                                'post_id':post.pk
+    })
   
-    if request.method == 'POST':
-        form = PostForm(request.POST, post=post)
-        if form.is_valid():
-            post_form = form.save(commit=False)
-            post_form.author = request.user
-            form.save()
-            return redirect(reverse('post', kwargs={'username':username,
-                                                    'post_id':post.pk}))
-    else:
-        form = PostForm(post=post)
-    return render(request, "new.html", {'form': form,
-                                        'edit': "Сохранить", 
-                                        'edit_post': "Редактировать пост"})
+    if not request.method == 'POST':
+        form = PostForm(request.POST, instance=post)
+        return render(request,"new_post.html", {
+                                              'form':form,
+                                              'post':post,
+                                              'edit_post':'Редактировать пост',
+    })
+    form = PostForm(request.POST)
+
+    if form.is_valid():
+        post = Post.objects.get(id=post_id)
+        post.group = form.cleaned_data['group']
+        post.text = form.cleaned_data['text']
+        post.save()
+        return redirect('post',kwargs={'username':username,
+                                       'post_id':post_id, 
+    })
+    return render(request, 'new_post.html', {
+                                            'form':form,
+                                            'post':post,
+                                            'edit_post':'Редактировать пост',
+    })
